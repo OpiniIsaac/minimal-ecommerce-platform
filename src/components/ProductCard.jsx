@@ -5,33 +5,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
-export default function ProductCard() {
-
-     const[data,setData] = React.useState('')
- 
-
-
-
-React.useEffect(()=>{
-
-
-     const fetchProduct = async () => {
-
-          try{
-               const res =  await fetch('https://fakestoreapi.com/products/1');
-               const data = await res.json()
-               setData(data);
-              
-              }
-           catch(error){
-               console.log( error);
-          }
-     }
-
-fetchProduct()
-
-},[])
-
+export default function ProductCard({product}) {
+const maxLength = 10;
+     const truncatedTitle = product.title.length > maxLength
+     ? `${product.title.substring(0, maxLength)}...`
+     : product.title;
    
   return (
     <Card sx={{ maxWidth: 300 }}>
@@ -39,7 +17,7 @@ fetchProduct()
         <CardMedia
           component="img"
           height="140"
-          image={data.image}
+          image={product.image}
           alt="green iguana"
           sx={
                {
@@ -49,10 +27,10 @@ fetchProduct()
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Apples
+            {truncatedTitle}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            UGX 10,000
+            UGX {product.price}
           </Typography>
         </CardContent>
       </CardActionArea>
