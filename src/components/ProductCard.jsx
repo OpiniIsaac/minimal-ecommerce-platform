@@ -4,20 +4,32 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../context/carSlice';
 
-export default function ProductCard({product}) {
+export default function ProductCard({name,price,id,image}) {
+     const dispatch = useDispatch()
+    
 const maxLength = 10;
-     const truncatedTitle = product.title.length > maxLength
-     ? `${product.title.substring(0, maxLength)}...`
-     : product.title;
-   
+     const truncatedTitle = name.length > maxLength
+     ? `${name.substring(0, maxLength)}...`
+     : name;
+   const addToCart=()=>{
+dispatch( cartActions.addToCart({
+     price,
+     name,
+     id
+}))
+
+
+   }
   return (
     <Card sx={{ maxWidth: 300 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={product.image}
+          image={image}
           alt="green iguana"
           sx={
                {
@@ -30,12 +42,12 @@ const maxLength = 10;
             {truncatedTitle}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            UGX {product.price}
+            UGX {price}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions >
-        <Button  color="primary" variant='contained'>
+        <Button  color="primary" variant='contained' onClick={addToCart}>
           Add To Cart
         </Button>
       </CardActions>
